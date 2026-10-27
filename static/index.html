@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151b20">
+  <title>Meridian — Options Desk</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/app.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="brand-words"><strong>meridian<span class="brand-point">.</span></strong><small>OPTIONS DESK</small></div>
+      </div>
+      <div class="workspace-label">WORKSPACE <span>01 / NSE</span></div>
+      <nav class="nav">
+        <a class="nav-link active" href="#overview" data-nav="overview"><span class="nav-icon">◫</span> Overview <span class="nav-num">01</span></a>
+        <a class="nav-link" href="#positions" data-nav="positions"><span class="nav-icon">◇</span> Positions <span class="nav-num">02</span></a>
+        <a class="nav-link" href="#chain" data-nav="chain"><span class="nav-icon">▦</span> Option chain <span class="nav-num">03</span></a>
+        <a class="nav-link" href="#risk" data-nav="risk"><span class="nav-icon">◉</span> Risk controls <span class="nav-num">04</span></a>
+        <a class="nav-link" href="#activity" data-nav="activity"><span class="nav-icon">≡</span> Activity <span class="nav-num">05</span></a>
+      </nav>
+      <div class="sidebar-lower">
+        <div class="sidebar-caption">ENGINE STATUS</div>
+        <div class="engine-small"><span id="side-led" class="led"></span><span id="side-status">Connecting</span><span id="side-mode" class="small-mode">—</span></div>
+        <div class="side-separator"></div>
+        <div class="sidebar-foot"><span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Local execution console<br><b>Asia / Kolkata</b></span></div>
+      </div>
+    </aside>
+
+    <main class="main" id="overview">
+      <header class="topbar">
+        <div class="breadcrumbs">Trading systems <span>/</span> <strong>Options desk</strong></div>
+        <div class="topbar-right"><span class="timezone">IST · <span id="clock">--:--:--</span></span><span class="top-sep"></span><span id="connection" class="connection"><i></i> Connecting</span></div>
+      </header>
+      <div class="content">
+        <div id="mode-banner" class="mode-banner"><span class="mode-banner-icon">◇</span><div><b>Loading the desk</b><span>Connecting to the local trading engine.</span></div><span class="banner-tail">SYSTEM NOTICE</span></div>
+
+        <section class="page-intro">
+          <div><div class="eyebrow">NIFTY 50 options</div><h1>Your trading desk</h1><p id="strategy-summary">Opening-range breakout · One position at a time</p></div>
+          <div class="control-panel"><div class="control-status"><span id="control-led" class="led"></span><div><small>STRATEGY</small><b id="control-status-text">Connecting</b></div></div><div class="control-buttons"><button class="btn btn-dark" data-action="start" disabled id="start-btn">Start engine <span>↗</span></button><button class="btn btn-outline" data-action="pause" disabled id="pause-btn" title="Block new entries; continue monitoring an open position">Pause entries</button><button class="btn btn-danger" data-action="halt" disabled id="halt-btn" title="Block entries and attempt to exit any open position">Kill switch</button></div></div>
+        </section>
+        <p class="control-help">Start enables automatic entries when rules pass. Pause blocks new entries. Kill switch also requests an exit at the next usable quote.</p>
+
+        <div id="feed-alert" class="feed-alert" role="status" aria-live="polite" hidden><div><b id="feed-alert-title"></b><p id="feed-alert-detail"></p></div><button class="btn btn-outline" id="refresh-btn">Refresh status</button></div>
+
+        <section class="session-panel" aria-labelledby="session-title">
+          <div class="session-heading"><div><span id="session-date" class="session-date">Today’s session · IST</span><h2 id="session-title">Connecting to your bot</h2><p id="session-detail">Checking the engine and market feed.</p></div><div class="session-feed"><span>Market feed</span><b id="feed-status">Not checked</b><small id="feed-age">No snapshot received</small></div></div>
+          <ol class="session-timeline" aria-label="Regular trading session in IST">
+            <li data-phase="range"><b>09:15</b><span>Build opening range</span></li>
+            <li data-phase="entries"><b id="first-entry-time">09:32</b><span id="first-entry-label">Earliest ORB entry</span></li>
+            <li data-phase="manage"><b>14:45</b><span>No new entries</span></li>
+            <li data-phase="exit"><b>15:15</b><span>Attempt to exit</span></li>
+          </ol>
+          <div class="session-caption">Regular weekday hours; exchange holidays may differ. A scheduled startup is separate from this server’s current status.</div>
+          <div class="feed-health" aria-label="Data quality and execution assumptions">
+            <div><small>Candle history</small><b id="health-candles">Not checked</b></div>
+            <div><small>Option delta data</small><b id="health-greeks">Not checked</b></div>
+            <div><small>Last collection duration</small><b id="health-latency">—</b></div>
+            <div><small>Connection recovery</small><b id="health-retry">—</b></div>
+          </div>
+          <p class="session-caption" id="execution-assumptions">Execution assumptions unavailable.</p>
+        </section>
+
+        <section class="metric-grid" aria-label="Account metrics">
+          <article class="metric-card metric-feature"><div class="metric-head"><span>ESTIMATED EQUITY</span><span class="metric-glyph">₹</span></div><div class="metric-value" id="equity">₹—</div><div class="metric-bottom"><span class="metric-detail" id="capital-detail">Starting capital —</span><span id="total-return" class="delta-chip">—</span></div><div id="mini-spark" class="mini-spark"></div></article>
+          <article class="metric-card"><div class="metric-head"><span>SESSION P&L</span><span class="metric-symbol">↗</span></div><div class="metric-value" id="day-pnl">₹—</div><div class="metric-bottom"><span class="metric-detail">Since session open</span><span id="day-pnl-tag" class="tiny-tag">IST</span></div></article>
+          <article class="metric-card"><div class="metric-head"><span>REALIZED P&L</span><span class="metric-symbol">◎</span></div><div class="metric-value" id="realized">₹—</div><div class="metric-bottom"><span class="metric-detail">Closed fills, estimated fees</span><span class="tiny-tag">NET EST.</span></div></article>
+          <article class="metric-card"><div class="metric-head"><span>OPEN EXPOSURE</span><span class="metric-symbol">◈</span></div><div class="metric-value" id="exposure">₹—</div><div class="metric-bottom"><span class="metric-detail" id="exposure-detail">No active position</span><span class="tiny-tag">PREMIUM</span></div></article>
+        </section>
+
+        <section class="setup-panel panel" id="trade-setup" aria-labelledby="setup-title">
+          <div class="setup-heading"><div><h2 id="setup-title">What would trigger a trade?</h2><p>These are NIFTY index levels, not option strikes or premium prices.</p></div><span id="range-progress" class="count-pill">0 / 15 opening candles</span></div>
+          <div class="setup-grid">
+            <div class="trigger trigger-call"><span>Call setup · Buy CE</span><strong id="call-trigger">—</strong><p>Two completed 1-minute closes above this boundary after a fresh crossing.</p><small>Index stop if entered <b id="call-stop">—</b></small></div>
+            <div class="range-summary"><span>09:15–09:30 opening range</span><div><b id="range-low">—</b><span>to</span><b id="range-high">—</b></div><p>Buffer <b id="range-buffer">—</b> points</p><small id="range-validity">Waiting for complete broker candles.</small></div>
+            <div class="trigger trigger-put"><span>Put setup · Buy PE</span><strong id="put-trigger">—</strong><p>Two completed 1-minute closes below this boundary after a fresh crossing.</p><small>Index stop if entered <b id="put-stop">—</b></small></div>
+          </div>
+          <div class="setup-status"><div><span>Current decision</span><b id="setup-reason">Waiting for a market snapshot.</b></div><div><span>Next-entry risk budget</span><b id="entry-budget">—</b></div><div><span>Trades today</span><b id="session-trades">—</b></div></div>
+          <p class="setup-note">A boundary is not an order. Confirmation, VIX, liquidity, expiry and whole-lot risk checks must all pass. The index target is set at entry to 2× the entry-to-stop distance.</p>
+        </section>
+
+        <section class="analysis-grid">
+          <article class="panel chart-panel">
+            <div class="panel-head"><div><div class="section-kicker">MARKET MONITOR <span> / 01</span></div><h2>Price action</h2></div><div class="chart-toggle" role="group" aria-label="Chart series"><button class="selected" data-chart="spot">NIFTY 50</button><button data-chart="equity">Equity</button></div></div>
+            <div class="market-strip"><div class="market-price" id="market-price">—</div><div id="market-change" class="market-change">—</div><div class="strip-divider"></div><div class="strip-item"><small>INDIA VIX</small><b id="vix">—</b></div><div class="strip-item"><small>DATA</small><b id="market-source">—</b></div></div>
+            <div class="chart-wrap"><div id="chart" class="chart" role="img" aria-label="NIFTY 50 price history"></div><div id="chart-y-label" class="chart-y-label">INDEX / INR</div></div>
+            <div class="chart-foot"><span><i class="legend-dot"></i><span id="chart-legend">NIFTY 50</span></span><span id="chart-range">Waiting for observations</span><span>1 MIN OBSERVATIONS</span></div>
+          </article>
+
+          <article class="panel decision-panel"><div class="panel-head"><div><div class="section-kicker">DECISION ENGINE <span> / 02</span></div><h2>Current signal</h2></div><div class="status-spark">✳</div></div><div class="decision-body"><div class="decision-label">LATEST ASSESSMENT</div><div id="signal" class="signal wait">WAIT</div><p id="signal-reason">Waiting for the first market snapshot.</p><div class="decision-divider"></div><div class="decision-row"><span id="level-high-label">Opening range high <small>09:15–09:30</small></span><b id="trend-gap">—</b></div><div class="decision-row"><span id="level-low-label">Opening range low</span><b id="momentum">—</b></div><div class="decision-row"><span>Confirmation</span><b id="confirmation">—</b></div><div class="decision-row"><span>Selected contract</span><b id="candidate">—</b></div><div class="decision-row"><span>Last market check</span><b id="last-check">—</b></div></div><div class="decision-foot"><span class="pulse-dot"></span> Rules based execution · no discretionary overrides</div></article>
+        </section>
+
+        <section class="panel history-panel" aria-labelledby="history-title">
+          <div class="setup-heading"><div><h2 id="history-title">Plan from previous sessions</h2><p>Historical NIFTY levels and AI scenarios. Existing entry rules still apply.</p></div><span id="history-status" class="count-pill">Waiting for history</span></div>
+          <div class="history-grid">
+            <div class="history-facts"><p id="history-source">No historical candles collected yet.</p><dl class="position-plan"><div><dt>Observed session high</dt><dd id="prior-high">—</dd></div><div><dt>Observed session low</dt><dd id="prior-low">—</dd></div><div><dt>Last 1-minute close</dt><dd id="prior-close">—</dd></div><div><dt>Candle coverage</dt><dd id="prior-coverage">—</dd></div></dl><p id="history-warnings" class="position-note">Source dates and any missing candles will appear here.</p></div>
+            <div class="history-plan"><div class="review-heading"><h3>AI session plan</h3><span id="plan-status">Not prepared</span></div><p id="plan-text">The AI will describe bullish, bearish and wait scenarios from collected history.</p><small id="plan-meta">Advisory only. The plan cannot place orders or enable earlier entries.</small></div>
+          </div>
+          <div class="chain-foot">Price history does not establish the next market direction. News, overnight markets and order flow are not included in this plan. Intraday Agent notes below can compare the live snapshot with these historical levels.</div>
+        </section>
+
+        <section class="panel review-panel" aria-labelledby="review-title">
+          <div class="review-overview"><h2 id="review-title">Breakout review</h2><p id="review-overview-text">15-minute opening range. Two completed candles confirm a break. One option lot must fit the remaining risk budget.</p><div class="review-levels"><span>Index stop <b id="structural-stop">—</b></span><span>Index target <b id="structural-target">—</b></span><span>Estimated stop loss <b id="estimated-risk">—</b></span></div><small id="review-overview-note">The target is 2× the index stop distance. Option returns can differ as volatility and time value change.</small></div>
+          <div class="review-note"><div class="review-heading"><h3>Agent notes</h3><span id="review-status">Waiting</span></div><p id="review-text">No AI review yet.</p><small id="review-meta">Review and explain only. The agent cannot place orders or change risk limits.</small><div class="review-caveat">AI commentary may be wrong. Review time and signal are shown so an older note is not mistaken for a current assessment.</div></div>
+        </section>
+
+        <section class="lower-grid" id="positions">
+          <article class="panel positions-panel"><div class="panel-head"><div><div class="section-kicker">PORTFOLIO <span> / 03</span></div><h2>Positions</h2></div><span id="position-count" class="count-pill">0 OPEN</span></div><div id="position-content" class="position-content"><div class="empty-state"><span>◇</span><b>No active position</b><p>No money is committed. A position appears only after a fill.</p></div></div><div class="table-label">RECENT EXECUTIONS</div><div class="table-scroll"><table><thead><tr><th>TIME</th><th>CONTRACT</th><th>SIDE</th><th>QTY</th><th>FILL</th><th>STATUS</th></tr></thead><tbody id="orders-body"><tr><td colspan="6" class="table-empty">No executions yet</td></tr></tbody></table></div></article>
+          <article class="panel risk-panel" id="risk"><div class="panel-head"><div><div class="section-kicker">GUARDRAILS <span> / 04</span></div><h2>Risk budget</h2></div><span class="shield-icon">⬡</span></div><div class="risk-main"><div class="risk-copy"><span>DAILY LOSS CAP</span><strong id="risk-cap">₹—</strong><small>A software exit threshold, not a guaranteed maximum loss.</small></div><div id="risk-ring" class="risk-ring"><div><strong id="risk-used">0%</strong><span>USED</span></div></div></div><div class="risk-bars"><div><span>Loss capacity remaining</span><b id="risk-remaining">₹—</b></div><div class="meter"><i id="risk-meter"></i></div></div><div class="risk-grid"><div><span>MAX PREMIUM / TRADE</span><b id="risk-premium">—</b></div><div><span>PLANNED STOP RISK</span><b id="risk-trade">—</b></div><div><span>TRADES / DAY</span><b id="risk-count">—</b></div><div><span>SPREAD LIMIT</span><b id="risk-spread">—</b></div></div><div id="risk-lock" class="risk-lock"><span>●</span> Daily risk lock inactive</div></article>
+        </section>
+
+        <section class="lower-grid final-grid">
+          <article class="panel chain-panel" id="chain"><div class="panel-head"><div><div class="section-kicker">MARKET DEPTH <span> / 05</span></div><h2>Near-money chain</h2></div><span class="panel-aside">BEST BID / ASK</span></div><div class="table-scroll"><table><thead><tr><th>STRIKE</th><th>TYPE</th><th>EXPIRY</th><th>LOT</th><th>BID</th><th>ASK</th><th>SPREAD</th><th>DELTA</th><th>OPEN INT.</th></tr></thead><tbody id="chain-body"><tr><td colspan="9" class="table-empty">Waiting for an option chain</td></tr></tbody></table></div><div class="chain-foot">Expiry and lot size are read from the broker contract master. Quotes refresh with the engine.</div></article>
+          <article class="panel activity-panel" id="activity"><div class="panel-head"><div><div class="section-kicker">AUDIT TRAIL <span> / 06</span></div><h2>Activity</h2></div><span class="activity-live"><i></i> LATEST FIRST</span></div><div id="activity-list" class="activity-list"><div class="activity-empty">Waiting for engine events</div></div></article>
+        </section>
+        <footer class="footer"><div><span class="footer-brand">meridian<span>.</span></span> Autonomous options desk <span class="footer-dot">·</span> All times IST</div><div>Estimated P&L can differ from broker settlement <span class="footer-dot">·</span> <span id="footer-mode">—</span></div></footer>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

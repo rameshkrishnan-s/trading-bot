@@ -1,0 +1,31 @@
+[Unit]
+Description=NIFTY ORB paper engine
+Wants=network-online.target time-sync.target
+After=network-online.target time-sync.target
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=optionbot
+Group=optionbot
+WorkingDirectory=/opt/option-trading-bot
+EnvironmentFile=/etc/option-trading-bot.env
+Environment=BOT_ENV_FILE=/etc/option-trading-bot.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStartPre=/usr/bin/python3 -m app.preflight --cloud
+ExecStart=/usr/bin/python3 -u -m app.server
+Restart=on-failure
+RestartSec=20
+TimeoutStopSec=180
+StateDirectory=option-trading-bot
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictSUIDSGID=true
+ReadWritePaths=/var/lib/option-trading-bot /tmp
+
+[Install]
+WantedBy=multi-user.target

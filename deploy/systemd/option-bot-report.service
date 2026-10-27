@@ -1,0 +1,21 @@
+[Unit]
+Description=Daily paper session report and Telegram summary
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=optionbot
+Group=optionbot
+WorkingDirectory=/opt/option-trading-bot
+EnvironmentFile=/etc/option-trading-bot.env
+Environment=BOT_ENV_FILE=/etc/option-trading-bot.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 -m app.daily_report --directory /var/lib/option-trading-bot/reports --notify
+TimeoutStartSec=60
+StateDirectory=option-trading-bot
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/option-trading-bot /tmp

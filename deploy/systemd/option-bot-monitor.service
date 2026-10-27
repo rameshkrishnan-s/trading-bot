@@ -1,0 +1,21 @@
+[Unit]
+Description=Check paper bot and deliver changed health to Telegram
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=optionbot
+Group=optionbot
+WorkingDirectory=/opt/option-trading-bot
+EnvironmentFile=/etc/option-trading-bot.env
+Environment=BOT_ENV_FILE=/etc/option-trading-bot.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 -m app.monitor --state /var/lib/option-trading-bot/monitor.json --backups /var/lib/option-trading-bot/backups
+TimeoutStartSec=30
+StateDirectory=option-trading-bot
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/option-trading-bot /tmp

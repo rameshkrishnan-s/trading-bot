@@ -1,0 +1,10 @@
+[Unit]
+Description=Back up paper history after each weekday session
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 16:00:00 Asia/Kolkata
+Persistent=true
+RandomizedDelaySec=60
+
+[Install]
+WantedBy=timers.target

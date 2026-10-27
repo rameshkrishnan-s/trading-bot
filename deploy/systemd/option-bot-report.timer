@@ -1,0 +1,9 @@
+[Unit]
+Description=Daily paper summary after the regular session
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 15:45:00 Asia/Kolkata
+Persistent=false
+
+[Install]
+WantedBy=timers.target

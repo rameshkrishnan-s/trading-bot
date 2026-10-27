@@ -1,0 +1,19 @@
+[Unit]
+Description=Verified SQLite paper history backup
+
+[Service]
+Type=oneshot
+User=optionbot
+Group=optionbot
+WorkingDirectory=/opt/option-trading-bot
+EnvironmentFile=/etc/option-trading-bot.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 -m app.backup ${BOT_DB_PATH} --directory /var/lib/option-trading-bot/backups
+TimeoutStartSec=300
+StateDirectory=option-trading-bot
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/option-trading-bot
